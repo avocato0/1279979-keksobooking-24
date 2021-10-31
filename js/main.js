@@ -1,4 +1,11 @@
-import { getRandomGeneration } from './data/get-similar-generation.js';
+import { similarGeneration } from './data/get-similar-generation.js';
+import { createPopup } from './data/popup.js';
+const mapCanvas = document.querySelector('.map__canvas');
+const similarCardFragment = document.createDocumentFragment();
+similarGeneration.forEach((object) => {
+  const popup = createPopup(object);
+  similarCardFragment.append(popup);
+});
 
-const getSimilarGeneration = Array.from({ length: 11 }, getRandomGeneration);
-console.log(getSimilarGeneration);
+mapCanvas.append(similarCardFragment.children[0]);
+

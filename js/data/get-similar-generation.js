@@ -10,7 +10,6 @@ const getRandomGeneration = function () {
   const randomCheckin = _.random(0, CHECKIN.length - 1);
   const randomCheckout = _.random(0, CHECKOUT.length - 1);
   const randomDescription = _.random(0, DESCRIPTION.length - 1);
-  const randomPhotos = _.random(0, PHOTOS.length - 1);
   const randomLat = _.random(35.65000, 35.70000).toFixed(5);
   const randomLng = _.random(139.70000, 139.80000).toFixed(5);
   const randomAdress = randomLat + ' ' + randomLng;
@@ -41,7 +40,7 @@ const getRandomGeneration = function () {
       checkout: CHECKOUT[randomCheckout],
       features: randomFeaturesArr,
       description: DESCRIPTION[randomDescription],
-      photos: PHOTOS[randomPhotos],
+      photos: PHOTOS,
     },
     location: {
       lat: +randomLat,
@@ -49,5 +48,5 @@ const getRandomGeneration = function () {
     },
   };
 };
-
-export { getRandomGeneration };
+const similarGeneration = Array.from({ length: 11 }, getRandomGeneration);
+export { similarGeneration };
