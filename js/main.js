@@ -14,8 +14,8 @@ setFormStateDisabled(false);
 
 const price = document.querySelector('input[name="price"]');
 const type = document.querySelector('select[name="type"]');
-//const room = document.querySelector('select[name="rooms"]');
-//const campacity = document.querySelector('select[name="capacity"]');
+const room = document.querySelector('select[name="rooms"]');
+const campacity = document.querySelector('select[name="capacity"]');
 const typeToValue = {
   bungalow: 0,
   flat: 1000,
@@ -23,32 +23,29 @@ const typeToValue = {
   house: 5000,
   palace: 10000,
 };
-const typeToPlaceholder = {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000',
 
-};
-/*const roomValue = {
-  1: 3,
-  2: 2,
-  3: 1,
-  100: 0,
-};*/
 
 type.addEventListener('change', () => {
   price.min = typeToValue[type.value];
-  price.placeholder = typeToPlaceholder[type.value];
+  price.placeholder = `${typeToValue[type.value]}`;
 });
 
-/*room.addEventListener('change', () => {
-  if (campacity.value !== roomValue[room.value]) {
-    campacity.remove(campacity.value);
-  } else {
-    campacity.value = roomValue[room.value]
+const roomToCapacity = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
 
+room.addEventListener('change', () => {
+  for (let i = 0; i < campacity.children.length; i++) {
+    const option = campacity.children[i];
+    option.disabled = true;
+    const capacityValues = roomToCapacity[room.value];
+    for (let j = 0; j < capacityValues.length; j++) {
+      if (+option.value === capacityValues[j]) {
+        option.disabled = false;
+      }
+    }
   }
-
-});*/
+});
