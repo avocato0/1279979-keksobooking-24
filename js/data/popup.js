@@ -20,7 +20,7 @@ const createPopup = ({ author, offer }) => {
   renderIf('.popup__text--price', offer.price, `${offer.price}₽/ночь`);
   renderIf('.popup__type', Type[offer.type]);
   renderIf('.popup__text--capacity', offer.rooms, `${offer.rooms} комнаты для ${offer.guests} гостей`);
-  renderIf('.popup__text--time', offer.checkout, `Заезд после ${offer.checkin} , выезд до ${offer.checkout}`)
+  renderIf('.popup__text--time', offer.checkout, `Заезд после ${offer.checkin} , выезд до ${offer.checkout}`);
   const featuresContainer = cardElement.querySelector('.popup__features');
   if (offer.features) {
     const featuresFragment = document.createDocumentFragment();
@@ -35,7 +35,7 @@ const createPopup = ({ author, offer }) => {
     featuresContainer.remove();
   }
 
-  renderIf('.popup__description', offer.description)
+  renderIf('.popup__description', offer.description);
   const photosContainer = cardElement.querySelector('.popup__photos');
   if (offer.photos.length) {
     const photoFragment = document.createDocumentFragment();
@@ -48,7 +48,7 @@ const createPopup = ({ author, offer }) => {
     photosContainer.innerHTML = '';
     photosContainer.append(photoFragment);
   } else {
-    photosContainer.remove()
+    photosContainer.remove();
   }
 
 

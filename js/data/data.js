@@ -58,6 +58,6 @@ const Type = {
   house: 'Дом',
   palace: 'Дворец',
   hotel: 'Отель',
-}
+};
 export { TITLE, TYPE, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, Type };
 

@@ -12,7 +12,7 @@ const getRandomGeneration = function () {
   const randomDescription = _.random(0, DESCRIPTION.length - 1);
   const randomLat = _.random(35.65000, 35.70000).toFixed(5);
   const randomLng = _.random(139.70000, 139.80000).toFixed(5);
-  const randomAdress = randomLat + ' ' + randomLng;
+  const randomAdress = `${randomLat} ${randomLng}`;
   const randomFeaturesArr = [];
 
   for (let i = 0; i < FEATURES.length; i++) {
@@ -27,7 +27,7 @@ const getRandomGeneration = function () {
 
   return {
     author: {
-      avatar: 'img/avatars/user' + (randomNumber > 9 ? randomNumber : '0' + randomNumber) + '.png'
+      avatar: `img/avatars/user${randomNumber > 9 ? randomNumber : `0${randomNumber}`}.png`,
     },
     offer: {
       title: TITLE[randomTitle],
