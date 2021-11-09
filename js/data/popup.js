@@ -18,7 +18,7 @@ const createPopup = ({ author, offer }) => {
   renderIf('.popup__title', offer.title);
   renderIf('.popup__text--address', offer.adress);
   renderIf('.popup__text--price', offer.price, `${offer.price}₽/ночь`);
-  renderIf('.popup__type', Type[offer.type]);
+  renderIf('.popup__type', offer.type, Type[offer.type]);
   renderIf('.popup__text--capacity', offer.rooms, `${offer.rooms} комнаты для ${offer.guests} гостей`);
   renderIf('.popup__text--time', offer.checkout, `Заезд после ${offer.checkin} , выезд до ${offer.checkout}`);
   const featuresContainer = cardElement.querySelector('.popup__features');
