@@ -1,4 +1,11 @@
-import { Type } from './data.js';
+const Type = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+
 const similarCardTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
@@ -16,7 +23,7 @@ const createPopup = ({ author, offer }) => {
     }
   };
   renderIf('.popup__title', offer.title);
-  renderIf('.popup__text--address', offer.adress);
+  renderIf('.popup__text--address', offer.address);
   renderIf('.popup__text--price', offer.price, `${offer.price}₽/ночь`);
   renderIf('.popup__type', offer.type, Type[offer.type]);
   renderIf('.popup__text--capacity', offer.rooms, `${offer.rooms} комнаты для ${offer.guests} гостей`);
@@ -37,7 +44,7 @@ const createPopup = ({ author, offer }) => {
 
   renderIf('.popup__description', offer.description);
   const photosContainer = cardElement.querySelector('.popup__photos');
-  if (offer.photos.length) {
+  if (offer.photos && offer.photos.length) {
     const photoFragment = document.createDocumentFragment();
     const photoElement = photosContainer.querySelector('img');
     for (let i = 0; i < offer.photos.length; i++) {

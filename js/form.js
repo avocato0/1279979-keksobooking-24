@@ -1,8 +1,16 @@
+import { mainMarker, address, map } from './map.js';
+
+
+const adForm = document.querySelector('.ad-form');
+const mapFilterForm = document.querySelector('.map__filters');
+const resetButton = document.querySelector('.ad-form__reset');
 const setFormStateDisabled = function (show) {
-  const adForm = document.querySelector('.ad-form');
-  const mapFilterForm = document.querySelector('.map__filters');
   const fieldsets = adForm.querySelectorAll('fieldset');
   const mapFilters = mapFilterForm.querySelectorAll('.map__filter');
+  const mapFeatures = mapFilterForm.querySelectorAll('.map__features');
+  for (let i = 0; i < mapFeatures.length; i++) {
+    mapFeatures[i].disabled = show;
+  }
   adForm.classList.toggle('.ad-form--disabled', show);
   mapFilterForm.classList.toggle('.map__filters--disabled', show);
   for (let i = 0; i < fieldsets.length; i++) {
@@ -72,4 +80,27 @@ timeout.addEventListener('change', () => {
     }
   }
 });
-export { setFormStateDisabled };
+
+resetButton.addEventListener('click', () => {
+  mapFilterForm.reset();
+  mainMarker.setLatLng({ lat: 35.6895, lng: 139.692 });
+  map.closePopup();
+});
+const setUserFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = 'multipart/form-data';
+    fetch('https://24.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        headers:
+        {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      },
+    );
+  });
+};
+
+export { setFormStateDisabled, setUserFormSubmit };
