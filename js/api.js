@@ -9,13 +9,4 @@ const getData = (getAllMarkers) => {
     });
 };
 
-const sendData = () => {
-  fetch('https://24.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body: new FormData(),
-    },
-  );
-
-};
-export { getData, sendData };
+export { getData };

@@ -80,26 +80,79 @@ timeout.addEventListener('change', () => {
     }
   }
 });
-
-resetButton.addEventListener('click', () => {
+const resetForm = () => {
   mapFilterForm.reset();
-  mainMarker.setLatLng({ lat: 35.6895, lng: 139.692 });
+  mainMarker.setLatLng({ lat: 35.6895, lng: 139.69200 });
+  setTimeout(() => {
+    address.value = `${35.6895} ${139.692}`;
+  }, 0);
   map.closePopup();
+};
+resetButton.addEventListener('click', () => {
+  resetForm();
 });
-const setUserFormSubmit = (onSuccess) => {
+
+const getSuccessMessage = () => {
+  const body = document.querySelector('body');
+  const successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+  const successMessageElement = successTemplate.cloneNode(true);
+  body.append(successMessageElement);
+
+
+  successMessageElement.addEventListener('click', () => {
+    successMessageElement.remove();
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      successMessageElement.remove();
+    }
+  });
+};
+
+const getErrorMessage = () => {
+  const body = document.querySelector('body');
+  const errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  const errorMessageElement = errorTemplate.cloneNode(true);
+  const errorButton = errorMessageElement.querySelector('.error__button');
+  body.append(errorMessageElement);
+
+  errorButton.addEventListener('click', () => {
+    errorMessageElement.remove();
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      errorMessageElement.remove();
+    }
+  });
+};
+const setUserFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = 'multipart/form-data';
-    fetch('https://24.javascript.pages.academy/keksobooking',
+    const formData = new FormData(evt.target);
+    fetch('https://24.javascript.pages.academy/keksobookin',
       {
         method: 'POST',
-        headers:
-        {
+        //headers:
+        /*{
           'Content-Type': 'multipart/form-data',
-        },
+        },*/
         body: formData,
+        mode: 'no-cors',
       },
-    );
+    )
+      .then((response) => {
+        if (response.ok) {
+          resetForm();
+          getSuccessMessage();
+        } else {
+          getErrorMessage();
+        }
+      })
+      .catch(() => getErrorMessage());
   });
 };
 
