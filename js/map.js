@@ -1,12 +1,14 @@
 import { setFormStateDisabled } from './form.js';
 import { createPopup } from './popup.js';
 import { getData } from './api.js';
-
+let serverData = [];
 setFormStateDisabled(true);
 const address = document.querySelector('input[name="address"]');
 const map = L.map('map-canvas');
 map.on('load', () => {
-  setFormStateDisabled(false);
+  setTimeout(() => {
+    setFormStateDisabled(false);
+  }, 500);
 });
 map.setView(
   {
@@ -40,18 +42,40 @@ mainMarker.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 const getAllMarkers = (data) => {
-  for (let i = 0; i < data.length; i++) {
+
+  console.log(data);
+  const newData = data.slice(0, 10);
+  for (let i = 0; i < newData.length; i++) {
     const icon = L.icon(
       {
         iconUrl: 'img/pin.svg',
         iconSize: [40, 40],
         iconAnchor: [20, 40],
       });
-    const marker = L.marker(data[i].location, { icon });
+    const marker = L.marker(newData[i].location, { icon });
     marker.addTo(map);
-    marker.bindPopup(createPopup(data[i]));
+    marker.bindPopup(createPopup(newData[i]));
+
   }
 };
+const mapFilters = document.querySelector('.map__filters');
 
-getData(getAllMarkers);
+mapFilters.addEventListener('change', () => {
+
+  const filterData = serverData.filter(() => {
+
+  });
+  map.eachLayer((layer) => {
+
+    if (layer.option && layer.option.icon) {
+      layer.remove();
+    }
+  });
+});
+getData((data) => {
+  getAllMarkers(data);
+  serverData = data;
+});
+
+
 export { mainMarker, address, map };

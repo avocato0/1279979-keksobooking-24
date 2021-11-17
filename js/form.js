@@ -27,6 +27,7 @@ const room = document.querySelector('select[name="rooms"]');
 const campacity = document.querySelector('select[name="capacity"]');
 const timein = document.querySelector('select[name="timein"]');
 const timeout = document.querySelector('select[name="timeout"]');
+
 const typeToValue = {
   bungalow: 0,
   flat: 1000,
@@ -82,9 +83,9 @@ timeout.addEventListener('change', () => {
 });
 const resetForm = () => {
   mapFilterForm.reset();
-  mainMarker.setLatLng({ lat: 35.6895, lng: 139.69200 });
+  mainMarker.setLatLng({ lat: 35.68950, lng: 139.69200 });
   setTimeout(() => {
-    address.value = `${35.6895} ${139.692}`;
+    address.value = `${35.68950.toFixed(5)}, ${139.69200.toFixed(5)}`;
   }, 0);
   map.closePopup();
 };
@@ -129,6 +130,8 @@ const getErrorMessage = () => {
     }
   });
 };
+
+
 const setUserFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
