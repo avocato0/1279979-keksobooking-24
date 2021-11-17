@@ -1,12 +1,15 @@
 import { setFormStateDisabled } from './form.js';
 import { createPopup } from './popup.js';
 import { getData } from './api.js';
-
-setFormStateDisabled(true);
+import { filterAds, addFiltersHandler } from './filter.js';
 const address = document.querySelector('input[name="address"]');
+setFormStateDisabled(true);
+
 const map = L.map('map-canvas');
 map.on('load', () => {
-  setFormStateDisabled(false);
+  setTimeout(() => {
+    setFormStateDisabled(false);
+  }, 500);
 });
 map.setView(
   {
@@ -40,18 +43,33 @@ mainMarker.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 const getAllMarkers = (data) => {
-  for (let i = 0; i < data.length; i++) {
+
+  const newData = data.slice(0, 10);
+  for (let i = 0; i < newData.length; i++) {
     const icon = L.icon(
       {
         iconUrl: 'img/pin.svg',
         iconSize: [40, 40],
         iconAnchor: [20, 40],
       });
-    const marker = L.marker(data[i].location, { icon });
+    const marker = L.marker(newData[i].location, { icon });
     marker.addTo(map);
-    marker.bindPopup(createPopup(data[i]));
+    marker.bindPopup(createPopup(newData[i]));
+
   }
 };
 
-getData(getAllMarkers);
+getData((data) => {
+  getAllMarkers(data);
+  addFiltersHandler(() => {
+    map.eachLayer((layer) => {
+      if (layer.options && layer.options.icon && layer.options.icon.options.iconUrl !== 'img/main-pin.svg') {
+        layer.remove();
+      }
+    });
+    getAllMarkers(filterAds(data));
+  });
+});
+
+
 export { mainMarker, address, map };
