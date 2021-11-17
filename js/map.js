@@ -1,9 +1,10 @@
 import { setFormStateDisabled } from './form.js';
 import { createPopup } from './popup.js';
 import { getData } from './api.js';
-let serverData = [];
-setFormStateDisabled(true);
+import { filterAds, addFiltersHandler } from './filter.js';
 const address = document.querySelector('input[name="address"]');
+setFormStateDisabled(true);
+
 const map = L.map('map-canvas');
 map.on('load', () => {
   setTimeout(() => {
@@ -43,7 +44,6 @@ mainMarker.on('moveend', (evt) => {
 });
 const getAllMarkers = (data) => {
 
-  console.log(data);
   const newData = data.slice(0, 10);
   for (let i = 0; i < newData.length; i++) {
     const icon = L.icon(
@@ -58,23 +58,17 @@ const getAllMarkers = (data) => {
 
   }
 };
-const mapFilters = document.querySelector('.map__filters');
 
-mapFilters.addEventListener('change', () => {
-
-  const filterData = serverData.filter(() => {
-
-  });
-  map.eachLayer((layer) => {
-
-    if (layer.option && layer.option.icon) {
-      layer.remove();
-    }
-  });
-});
 getData((data) => {
   getAllMarkers(data);
-  serverData = data;
+  addFiltersHandler(() => {
+    map.eachLayer((layer) => {
+      if (layer.options && layer.options.icon && layer.options.icon.options.iconUrl !== 'img/main-pin.svg') {
+        layer.remove();
+      }
+    });
+    getAllMarkers(filterAds(data));
+  });
 });
 
 
