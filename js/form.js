@@ -41,7 +41,6 @@ const capacity = document.querySelector('select[name="capacity"]');
 const timein = document.querySelector('select[name="timein"]');
 const timeout = document.querySelector('select[name="timeout"]');
 
-
 const onTypeChange = () => {
   price.min = typeToValue[type.value];
   price.placeholder = `${typeToValue[type.value]}`;
@@ -84,10 +83,12 @@ timeout.addEventListener('change', () => {
 });
 const resetForm = () => {
   mapFilterForm.reset();
+
   price.placeholder = typeToValue.flat;
-  mainMarker.setLatLng({ lat: 35.6895, lng: 139.69200 });
+  mainMarker.setLatLng({ lat: 35.68950, lng: 139.69200 });
+
   setTimeout(() => {
-    address.value = `${35.6895} ${139.692}`;
+    address.value = `${35.68950.toFixed(5)}, ${139.69200.toFixed(5)}`;
   }, 0);
   map.closePopup();
 };

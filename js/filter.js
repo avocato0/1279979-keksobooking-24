@@ -1,3 +1,9 @@
+
+const mapFilters = document.querySelector('.map__filters');
+const housingType = mapFilters.querySelector('#housing-type');
+const housingPrice = mapFilters.querySelector('#housing-price');
+const housingRooms = mapFilters.querySelector('#housing-rooms');
+const housingGuests = mapFilters.querySelector('#housing-guests');
 const ANY = 'any';
 const priceMap = {
   low: {
@@ -14,13 +20,9 @@ const priceMap = {
   },
 };
 
-const mapFilters = document.querySelector('.map__filters');
-const housingType = mapFilters.querySelector('#housing-type');
-const housingPrice = mapFilters.querySelector('#housing-price');
-const housingRooms = mapFilters.querySelector('#housing-rooms');
-const housingGuests = mapFilters.querySelector('#housing-guests');
 
-const getFilterAds = ({ offer }) => {
+
+const filteredAds = ({ offer }) => {
   const checkedFeatures = mapFilters.querySelectorAll('input[name="features"]:checked');
 
   let isType = true;
@@ -33,18 +35,17 @@ const getFilterAds = ({ offer }) => {
     checkedFeatures.forEach((feature) => {
       if (!offer.features) {
         isFeatures = false;
-
       } else if (offer.features.indexOf(feature.value) === -1) {
         isFeatures = false;
       }
     });
+
     if (!isFeatures) {
       return false;
     }
-  }
-
-  if (housingType.value !== ANY) {
+ if (housingType.value !== ANY) {
     isType = offer.type === housingType.value;
+
     if (!isType) {
       return false;
     }
@@ -52,6 +53,7 @@ const getFilterAds = ({ offer }) => {
 
   if (housingRooms.value !== ANY) {
     isRooms = offer.rooms === Number(housingRooms.value);
+
     if (!isRooms) {
       return false;
     }
@@ -59,13 +61,16 @@ const getFilterAds = ({ offer }) => {
 
   if (housingGuests.value !== ANY) {
     isGuests = offer.guests === Number(housingGuests.value);
+
     if (!isGuests) {
       return false;
     }
+
   }
 
   if (housingPrice.value !== ANY) {
     isPrice = offer.price >= priceMap[housingPrice.value].min && offer.price < priceMap[housingPrice.value].max;
+
     if (!isPrice) {
       return false;
     }
@@ -74,7 +79,9 @@ const getFilterAds = ({ offer }) => {
   return isType && isRooms && isGuests && isFeatures && isPrice;
 };
 
+
 const filterAds = (advertisements) => advertisements.filter(getFilterAds);
+
 
 const addFiltersHandler = (cb) => {
   mapFilters.addEventListener('change', () => {

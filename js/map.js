@@ -8,6 +8,11 @@ setFormStateDisabled(true);
 
 const map = L.map('map-canvas');
 
+map.on('load', () => {
+  setTimeout(() => {
+    setFormStateDisabled(false);
+  }, 500);
+});
 map.setView(
   {
     lat: 35.6895,
@@ -57,17 +62,23 @@ const getAllMarkers = (data) => {
 };
 
 getData((data) => {
+
   setFormStateDisabled(false);
   getAllMarkers(data);
   addFiltersHandler(debounce(() => {
+  getAllMarkers(data);
+  addFiltersHandler(() => {
+
     map.eachLayer((layer) => {
       if (layer.options && layer.options.icon && layer.options.icon.options.iconUrl !== 'img/main-pin.svg') {
         layer.remove();
       }
     });
     getAllMarkers(filterAds(data));
+
   }));
-});
+  });
+
 
 
 export { mainMarker, address, map };
